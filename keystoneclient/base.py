@@ -131,6 +131,18 @@ class Manager(object):
         """
         resp, body = self.client.get(url)
         return self.resource_class(self, body[response_key], loaded=True)
+    
+    def _get_with_body(self, url, body, response_key):
+        """Get an object from collection.
+
+        :param url: a partial URL, e.g., '/servers'
+        :param body: data that will be encoded as JSON and passed in GET
+            request
+        :param response_key: the key to be looked up in response dictionary,
+            e.g., 'server'
+        """
+        resp, body = self.client.get(url,body=body)
+        return self.resource_class(self, body[response_key], loaded=True)
 
     def _head(self, url):
         """Retrieve request headers for an object.
@@ -330,6 +342,13 @@ class CrudManager(Manager):
     def get(self, **kwargs):
         return self._get(
             self.build_url(dict_args_in_out=kwargs),
+            self.key)
+
+    @filter_kwargs
+    def get_with_body(self, **kwargs):
+        return self._get_with_body(
+            self.build_url(dict_args_in_out=kwargs),
+            {self.key: kwargs},
             self.key)
 
     @filter_kwargs

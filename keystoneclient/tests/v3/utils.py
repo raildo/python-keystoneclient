@@ -162,6 +162,7 @@ class CrudTests(object):
         raise NotImplementedError('Are you sure you want to encode that?')
 
     def stub_entity(self, method, parts=None, entity=None, id=None, **kwargs):
+        
         if entity:
             entity = self.encode(entity)
             kwargs['json'] = entity
@@ -263,7 +264,7 @@ class CrudTests(object):
     @httpretty.activate
     def test_update(self, ref=None):
         ref = ref or self.new_ref()
-
+        
         self.stub_entity(httpretty.PATCH, id=ref['id'], entity=ref)
 
         req_ref = ref.copy()
@@ -334,6 +335,7 @@ class QuotaCrudTests(object):
         self.stub_entity(httpretty.GET, id=ref['id'], entity=ref)
 
         returned = self.manager.get(ref['id'])
+        
         self.assertTrue(isinstance(returned, self.model))
         for attr in ref:
             self.assertEqual(

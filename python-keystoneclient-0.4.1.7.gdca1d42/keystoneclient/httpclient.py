@@ -646,7 +646,6 @@ class HTTPClient(object):
         kwargs.setdefault('headers', {})
         if self.auth_token:
             kwargs['headers']['X-Auth-Token'] = self.auth_token
-
         resp, body = self.request(url_to_use + url, method,
                                   **kwargs)
         return resp, body

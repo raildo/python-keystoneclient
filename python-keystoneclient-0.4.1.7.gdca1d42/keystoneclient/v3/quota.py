@@ -18,23 +18,23 @@ from keystoneclient import base
 
 
 class DomainQuota(base.Resource):
-    """Represents an Identity domain.
-
-    Attributes:
-        * id: a uuid that identifies the domain
+    """Represents an domain Quota.
 
     """
     pass
 
 
 class DomainQuotaManager(base.CrudManager):
-    """Manager class for manipulating Identity domains."""
+    """Manager class for manipulating domains Quota."""
     resource_class = DomainQuota
     collection_key = 'domains'
     key = 'domain'
 
-    def get(self, domain):
-        return super(DomainQuotaManager, self).get(
-            domain_id=base.getid(domain), complement='quotas')
+    def get(self, domain, region=None, services=None):
+        return super(DomainQuotaManager, self).get_with_body(
+            domain_id=base.getid(domain),
+            region=region,
+            services=services,
+             complement='quotas')
 
 
